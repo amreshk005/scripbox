@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -7,11 +8,9 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
-import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
-import NativeSelect from "@material-ui/core/NativeSelect";
 import Select from "@material-ui/core/Select";
-import { useEffect } from "react";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
   root: {
@@ -43,10 +42,14 @@ const useStyles = makeStyles({
   formControl: {
     margin: 5,
   },
+  button: {
+    marginRight: 15,
+  },
 });
 
 function Questions() {
   const classes = useStyles();
+  const history = useHistory();
   const bull = <span className={classes.bullet}>•</span>;
   const [challenges, setChallenges] = useState([]);
   const [currentUser, setCurrentuser] = useState();
@@ -58,7 +61,8 @@ function Questions() {
   }, []);
 
   function getData() {
-    setChallenges(JSON.parse(localStorage.getItem("challenges")));
+    let data = JSON.parse(localStorage.getItem("challenges"));
+    setChallenges(data);
   }
 
   const handleChange = (event) => {
@@ -100,6 +104,9 @@ function Questions() {
               <Typography className={classes.title} variant="h6" noWrap>
                 Challenges
               </Typography>
+              <Button variant="outlined" color="primary" className={classes.button} onClick={() => history.push("/addquestion")}>
+                Add Challenges
+              </Button>
               <Typography variant="subtitle2" noWrap display="inline">
                 Sort by
               </Typography>
@@ -137,6 +144,7 @@ function Questions() {
                     </>
                   ))}
                 </Typography>
+
                 <Typography variant="caption" display="block" gutterBottom align="left" onClick={() => handlevotes(e.id)} color={e.votes.includes(currentUser) ? "secondary" : "initial"} style={{ cursor: "pointer" }}>
                   {e.votes.length}
                   <Typography variant="caption" display="block" gutterBottom>
