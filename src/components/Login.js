@@ -43,7 +43,7 @@ export default function SignIn() {
     e.preventDefault();
     let users = JSON.parse(localStorage.getItem("users")).includes(userId);
     if (users) {
-      localStorage.setItem("LoggedIn", true);
+      localStorage.setItem("LoggedIn", userId);
       history.push("/");
     } else {
       setError("Give Correct user Id");
