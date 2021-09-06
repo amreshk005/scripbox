@@ -38,6 +38,7 @@ const useStyles = makeStyles({
   },
   challenge: {
     padding: 20,
+    maxWidth: "45rem",
   },
   formControl: {
     margin: 5,
@@ -53,7 +54,7 @@ function Questions() {
   const bull = <span className={classes.bullet}>•</span>;
   const [challenges, setChallenges] = useState([]);
   const [currentUser, setCurrentuser] = useState();
-  const [state, setState] = React.useState("");
+  const [state, setState] = useState("");
 
   useEffect(() => {
     setCurrentuser(JSON.parse(localStorage.getItem("LoggedIn")));
@@ -68,7 +69,6 @@ function Questions() {
   const handleChange = (event) => {
     let value = event.target.value;
     let ChallengesHolder = challenges;
-    console.log(value);
     setState(value);
     switch (value) {
       case "createdAt":
@@ -94,7 +94,6 @@ function Questions() {
     getData();
   };
 
-  console.log(challenges);
   return (
     <div>
       <Card className={classes.root}>
@@ -127,8 +126,8 @@ function Questions() {
               </FormControl>
             </Toolbar>
           </AppBar>
-          {challenges.map((e) => (
-            <>
+          {challenges.map((e, index) => (
+            <Grid key={index}>
               <Divider />
               <Grid className={classes.challenge}>
                 <Typography variant="h6" gutterBottom align="left" color="Primary">
@@ -139,9 +138,9 @@ function Questions() {
                 </Typography>
                 <Typography variant="subtitle2" component="h2" align="left">
                   {e.tag.map((tag, index) => (
-                    <>
+                    <span key={index}>
                       {tag} {index !== e.tag.length - 1 && bull}
-                    </>
+                    </span>
                   ))}
                 </Typography>
 
@@ -152,7 +151,7 @@ function Questions() {
                   </Typography>
                 </Typography>
               </Grid>
-            </>
+            </Grid>
           ))}
         </CardContent>
       </Card>
